@@ -1,0 +1,67 @@
+1. Ask User to enter a directory "C:/Luis/Desktop"
+    - show the directory total memory and ask if want to continue
+    - have error checking 
+        - if its not a valid directory
+        - if it does not have anything inside
+
+2.Search for duplicate files
+    - hash each file and if they collide(matching files), increment the file count
+    - 
+
+3. Ask user to delete 
+    - "would you like to delete" Show the total memory of dub files
+    - type "all" to delete all"
+    - or give the user option to type the specfic dub file it wants deleted in directory
+
+____________________________________________________________________________
+                    
+                    Example output
+____________________________________________________________________________
+
+
+DUPLICATE FILE DELETER
+
+Enter a directory: C:/Austin/Desktop/notes
+
+NOTICE: This directory is over 1GB. Proceed? (Y/N) Y
+
+Searching for duplicate files...
+
+Duplicates Found:
+
+PHOTOS:
+PewDiePie_rules.png   20.4 Mb/122.4 Mb  (5 duplicates)
+
+DOCUMENTS:
+amoungus.txt   69.420 Kb   (2 duplicates)
+
+Type "all" to delete all duplicates at any time.
+Delete "PewDiePie_rules.png" duplicates? (Y/N) all
+
+Deleting all duplicates...
+
+Success! Amount of data deleted: 123 Mb
+
+Would you like to search another directory? (Y/N) Y
+
+Enter a directory: C:/Austin/Desktop/poop
+
+Searching for duplicate files...
+
+No duplicates found.
+
+Would you like to search another directory? (Y/N) Y
+
+Enter a directory: C:/Austin/Desktop/study_material
+
+Directory not found. Check the name and try again.
+
+Would you like to search another directory? (Y/N) N 
+
+Goodbye.
+duplicate_files.txt
+1 KB
+
+
+
+    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
