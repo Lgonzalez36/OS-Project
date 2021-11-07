@@ -1,0 +1,8 @@
+1. Ask User to enter a directory "C:/Luis/Desktop"
+    - show the directory total memory and ask if want to continue
+
+2.Search for duplicate files
+    - hash two files together and store them in a adjaceny list
+    
+3. Ask user to delete 
+    - "would you like to delete" Show the total memory of dub files
