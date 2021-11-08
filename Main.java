@@ -12,7 +12,7 @@ public class Main{
         System.out.println("Enter the whole Directory you wish to search\n");
 
         // File dir = new File("/home/lagonzalez/Documents/OS-Project");  // in linux is /...
-        File folder = new File("/home/lagonzalez/Documents/OS-Project");  // in windows is C:\\Desktop\\...
+        File folder = new File("C:\\Users\\luisg\\Documents\\NCC\\Fall 2021\\OS-Project");  // in windows is C:\\Desktop\\...
         File[] listOfFiles = folder.listFiles();
         
         System.out.println("Total files:\t" + listOfFiles.length + "\n");
@@ -32,7 +32,7 @@ public class Main{
                 for(int j=0; j< bytes.length ;j++){
                     sb.append(Integer.toString((bytes[j] & 0xff) + 0x100, 16).substring(1));
                 }
-                System.out.println((i+1) + "\t" + file.getName() + "\t\t\t" + sb.toString());
+                System.out.println((i+1) + "\t" + sb.toString() + "\t" + file.getName());
                 i++;
             }
         }
