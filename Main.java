@@ -16,6 +16,7 @@ public class Main{
         File[] listOfFiles = folder.listFiles();
         
         System.out.println("Total files:\t" + listOfFiles.length + "\n");
+        System.out.println("#" + "\t" + "HashCode" + "\t\t\t\t" + "File Name\n");
         int i=0;
         MessageDigest shaDigest = MessageDigest.getInstance("MD5");
         for (File file : listOfFiles){
