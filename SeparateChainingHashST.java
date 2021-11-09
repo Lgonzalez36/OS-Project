@@ -31,7 +31,7 @@ public class SeparateChainingHashST<Key, Value> {
 
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
-    private SequentialSearchST<Key, Value>[] st;  // array of linked-list symbol tables
+    private testHash2<Key, Value>[] st;  // array of linked-list symbol tables
 
     
     // Initializes an empty symbol table.
@@ -45,9 +45,9 @@ public class SeparateChainingHashST<Key, Value> {
      */
     public SeparateChainingHashST(int m) {
         this.m = m;
-        st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m];
+        st = (testHash2<Key, Value>[]) new testHash2[m];
         for (int i = 0; i < m; i++)
-            st[i] = new SequentialSearchST<Key, Value>();
+            st[i] = new testHash2<Key, Value>();
     } 
 
     // resize the hash table to have the given number of chains,
@@ -146,8 +146,7 @@ public class SeparateChainingHashST<Key, Value> {
             resize(2*m);
 
         int i = hash(key);
-        if (!st[i].contains(key)) 
-            n++;
+        if (!st[i].contains(key)) n++;
         st[i].put(key, val);
     } 
 
@@ -175,9 +174,24 @@ public class SeparateChainingHashST<Key, Value> {
     public Iterable<Key> keys() {
         AbstractQueue<Key> queue = new LinkedBlockingQueue<Key>();
         for (int i = 0; i < m; i++) {
-            for (Key key : st[i].keys())
+            for (Key key : st[i].keys()){
+                System.out.println(key);
                 queue.add(key);
+            }
         }
         return queue;
-    } 
+    }
+
+    public testHash2<Key, Value>[] getST(){
+        return this.st;
+    }
+
+	public void printST() {
+        System.out.println("\nKey: \t" + "Values: \t\n");
+        for (int i=0; i < st.length; i++){
+            System.out.print(st[i].getKey().toString() + "\t");
+            st[i].printST();
+            System.out.println("\n_____________________________\n");
+        }
+	}
 }
