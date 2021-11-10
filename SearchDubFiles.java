@@ -15,15 +15,15 @@ public class SearchDubFiles{
 
     SearchDubFiles(String dir){
         this.dir = dir;
-        this.hashTableST = new SeparateChainingHashST<>();
+        
     }
 
     public void search() throws NoSuchAlgorithmException, IOException{
         File folder = new File(this.dir);          // in windows is C:\\Desktop\\...
         File[] listOfFiles = folder.listFiles();    // in linux is "/home/lagonzalez/Documents/OS-Project"/...
+        hashTableST = new SeparateChainingHashST<>((listOfFiles.length) * 50);
         System.out.println("Total files:\t" + listOfFiles.length + "\n");
         System.out.println("#" + "\t" + "HashCode" + "\t\t\t\t" + "File Name\n");
-
         int i=0;
         MessageDigest shaDigest = MessageDigest.getInstance("MD5");
         for (File file : listOfFiles){

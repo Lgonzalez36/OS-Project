@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  *  Construction takes constant time.
  */
 public class SeparateChainingHashST<Key, Value> {
-    private static final int INIT_CAPACITY = 102;
+    private static final int INIT_CAPACITY = 4;
 
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
@@ -45,7 +45,8 @@ public class SeparateChainingHashST<Key, Value> {
      */
     public SeparateChainingHashST(int m) {
         this.m = m;
-        st = (testHash2<Key, Value>[]) new testHash2[102];
+        System.out.println("IN CTOR ");
+        st = (testHash2<Key, Value>[]) new testHash2[m];
         for (int i = 0; i < m; i++)
             st[i] = new testHash2<Key, Value>();
     } 
@@ -142,12 +143,15 @@ public class SeparateChainingHashST<Key, Value> {
             return;
         }
 
+
         // double table size if average length of list >= 10
         if (n >= 10*m) 
             resize(2*m);
 
         int i = hash(key);
+
         if (!st[i].contains(key)) n++;
+
         st[i].put(key, val);
     } 
 
