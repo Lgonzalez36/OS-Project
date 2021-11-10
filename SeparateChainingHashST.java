@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  *  Construction takes constant time.
  */
 public class SeparateChainingHashST<Key, Value> {
-    private static final int INIT_CAPACITY = 4;
+    private static final int INIT_CAPACITY = 102;
 
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
@@ -45,7 +45,7 @@ public class SeparateChainingHashST<Key, Value> {
      */
     public SeparateChainingHashST(int m) {
         this.m = m;
-        st = (testHash2<Key, Value>[]) new testHash2[m];
+        st = (testHash2<Key, Value>[]) new testHash2[102];
         for (int i = 0; i < m; i++)
             st[i] = new testHash2<Key, Value>();
     } 
@@ -137,6 +137,7 @@ public class SeparateChainingHashST<Key, Value> {
     public void put(Key key, Value val) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (val == null) {
+            System.out.println("IN VAL ++ NULL");
             delete(key);
             return;
         }
@@ -187,11 +188,14 @@ public class SeparateChainingHashST<Key, Value> {
     }
 
 	public void printST() {
-        System.out.println("\nKey: \t" + "Values: \t\n");
+        System.out.println("\nKey: \t\t\t\t\t" + " Values: \t\n");
         for (int i=0; i < st.length; i++){
-            System.out.print(st[i].getKey().toString() + "\t");
-            st[i].printST();
-            System.out.println("\n_____________________________\n");
+            if (!st[i].isEmpty()){
+                System.out.println("Index :" + i );
+                System.out.print(st[i].getKey().toString() + "\t");
+                st[i].printST();
+                System.out.println("\n____________________________________________________________\n");
+            }
         }
 	}
 }

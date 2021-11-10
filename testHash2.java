@@ -153,6 +153,7 @@ public class testHash2<Key, Value> {
     }
 
     public void printST(){
+
         for (Node x = first; x != null; x = x.next) {
             System.out.print(" -> " + x.val);
         }
@@ -176,11 +177,25 @@ public class testHash2<Key, Value> {
         int k = 3;
         int l = 4;
         int m = 2;
+        int f = 5;
+        int t = 20;
+        int a = 23;
+        int p = 4;
+        int h = 69;
+        int r = 8;
         integerToWordMap.put(i , "one");      // 1
         integerToWordMap.put(j ,"two" );      // 2
         integerToWordMap.put(k , "three" );   // 3
         integerToWordMap.put(l , "four" );    // 4
-        integerToWordMap.put(m , "Five" );     // 2
+        integerToWordMap.put(m , "Test" );     // 2
+        integerToWordMap.put(m , "Need" );
+        integerToWordMap.put(k , "To" );
+        integerToWordMap.put(f , "Check" );
+        integerToWordMap.put(a , "Check 1" );
+        integerToWordMap.put(p , "Check 2" );
+        integerToWordMap.put(t , "Check 3" );
+        integerToWordMap.put(h , "Check 4" );
+        integerToWordMap.put(r , "Check 5" );
 
         integerToWordMap.printST();
 
