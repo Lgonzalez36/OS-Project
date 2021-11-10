@@ -143,16 +143,19 @@ public class SeparateChainingHashST<Key, Value> {
             return;
         }
 
+        for(int i=0; i < m; i++){
+            if(st[i].isEmpty()){
+                st[i].put(key, val);
+                return;
+            }
+            else if (!st[i].isEmpty() && st[i].contains(key)){
+                st[i].put(key, val);
+                return;
+            }
+        }
+        
 
-        // double table size if average length of list >= 10
-        if (n >= 10*m) 
-            resize(2*m);
 
-        int i = hash(key);
-
-        if (!st[i].contains(key)) n++;
-
-        st[i].put(key, val);
     } 
 
     /**

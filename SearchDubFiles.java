@@ -21,7 +21,7 @@ public class SearchDubFiles{
     public void search() throws NoSuchAlgorithmException, IOException{
         File folder = new File(this.dir);          // in windows is C:\\Desktop\\...
         File[] listOfFiles = folder.listFiles();    // in linux is "/home/lagonzalez/Documents/OS-Project"/...
-        hashTableST = new SeparateChainingHashST<>((listOfFiles.length) * 50);
+        hashTableST = new SeparateChainingHashST<>((listOfFiles.length));
         System.out.println("Total files:\t" + listOfFiles.length + "\n");
         System.out.println("#" + "\t" + "HashCode" + "\t\t\t\t" + "File Name\n");
         int i=0;
@@ -29,7 +29,6 @@ public class SearchDubFiles{
         for (File file : listOfFiles){
             if (file.isFile()) {
                 FileInputStream fis = new FileInputStream(file.getName());
-                //Create byte array to read data in chunks
                 byte[] byteArray = new byte[1024];
                 int bytesCount = 0; 
                 while ((bytesCount = fis.read(byteArray)) != -1) {
