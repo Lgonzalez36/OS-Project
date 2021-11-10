@@ -26,8 +26,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  *  For additional documentation, see <a href="https://algs4.cs.princeton.edu/31elementary">Section 3.1</a> of
  *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *
- *  @author Robert Sedgewick
- *  @author Kevin Wayne
+ *  @author  
+ *  @author  
  */
 public class testHash2<Key, Value> {
     private int n;           // number of key-value pairs
@@ -155,7 +155,7 @@ public class testHash2<Key, Value> {
     public void printST(){
 
         for (Node x = first; x != null; x = x.next) {
-            System.out.print(" -> " + x.val);
+            System.out.print("  -->  " + x.val);
         }
     }
 
@@ -172,7 +172,7 @@ public class testHash2<Key, Value> {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        SeparateChainingHashST<Integer, String> integerToWordMap = new SeparateChainingHashST<>();
+        SeparateChainingHashST<Integer, String> integerToWordMap = new SeparateChainingHashST<>(13);
         int i = 1;
         int j = 2;
         int k = 3;
