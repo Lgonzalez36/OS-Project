@@ -104,7 +104,6 @@ public class testHash2<Key, Value> {
             delete(key);
             return;
         }
-
         for (Node x = first; x != null; x = x.next) {
             if (x.next == null) {
                 Node new_node = new Node(key, val, null);
@@ -138,7 +137,6 @@ public class testHash2<Key, Value> {
         return x;
     }
 
-
     /**
      * Returns all keys in the symbol table as an {@code Iterable}.
      * To iterate over all of the keys in the symbol table named {@code st},
@@ -153,7 +151,6 @@ public class testHash2<Key, Value> {
     }
 
     public void printST(){
-
         for (Node x = first; x != null; x = x.next) {
             System.out.print("  -->  " + x.val);
         }
@@ -162,9 +159,6 @@ public class testHash2<Key, Value> {
     public Key getKey(){
         return first.key;
     }
-
- 
-
 
     /**
      * Unit tests the {@code SequentialSearchST} data type.

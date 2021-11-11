@@ -15,7 +15,6 @@ public class SearchDubFiles{
 
     SearchDubFiles(String dir){
         this.dir = dir;
-        
     }
 
     public void search() throws NoSuchAlgorithmException, IOException{
@@ -45,7 +44,6 @@ public class SearchDubFiles{
             }
         }
         System.out.println("____________________________________________________________\n");
-
         hashTableST.printST();
     }
 }

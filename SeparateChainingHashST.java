@@ -1,7 +1,3 @@
-/******************************************************************************
- *  A symbol table implemented with a separate-chaining hash table.
- ******************************************************************************/
- 
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -28,12 +24,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class SeparateChainingHashST<Key, Value> {
     private static final int INIT_CAPACITY = 4;
-
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
     private testHash2<Key, Value>[] st;  // array of linked-list symbol tables
 
-    
     // Initializes an empty symbol table.
     public SeparateChainingHashST() {
         this(INIT_CAPACITY);
@@ -60,7 +54,6 @@ public class SeparateChainingHashST<Key, Value> {
                 temp.put(key, st[i].get(key));
             }
         }
-        
         this.m  = temp.m;
         this.n  = temp.n;
         this.st = temp.st;
@@ -142,7 +135,6 @@ public class SeparateChainingHashST<Key, Value> {
             delete(key);
             return;
         }
-
         for(int i=0; i < m; i++){
             if(st[i].isEmpty()){
                 st[i].put(key, val);
@@ -153,9 +145,6 @@ public class SeparateChainingHashST<Key, Value> {
                 return;
             }
         }
-        
-
-
     } 
 
     /**
@@ -195,11 +184,11 @@ public class SeparateChainingHashST<Key, Value> {
     }
 
 	public void printST() {
-        System.out.println("\nKey: \t\t\t\t\t" + " Values: \t\n");
+        System.out.println("\nIndex:\t\tKey:\t\t\t\t\t" + "\tValues: \n");
         for (int i=0; i < st.length; i++){
             if (!st[i].isEmpty()){
-                System.out.println("Index :" + i );
-                System.out.print(st[i].getKey().toString() + "\t");
+                System.out.print( i + "\t");
+                System.out.print("\t" + st[i].getKey().toString() + "\t ");
                 st[i].printST();
                 System.out.println("\n____________________________________________________________\n");
             }
