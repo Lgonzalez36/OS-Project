@@ -29,17 +29,17 @@ import java.util.concurrent.LinkedBlockingQueue;
  *  @author  
  *  @author  
  */
-public class testHash2<Key, Value> {
+public class testHash2<Key, File> {
     private int n;           // number of key-value pairs
     private Node first;      // the linked list of key-value pairs
 
     // a helper linked list data type
     private class Node {
         private Key key;
-        private Value val;
+        private File val;
         private Node next;
 
-        public Node(Key key, Value val, Node next)  {
+        public Node(Key key, File val, Node next)  {
             this.key  = key;
             this.val  = val;
             this.next = next;
@@ -85,7 +85,7 @@ public class testHash2<Key, Value> {
      *     and {@code null} if the key is not in the symbol table
      */
 
-    public Value get(Key key) {
+    public File get(Key key) {
         for (Node x = first; x != null; x = x.next) {
             if (key.equals(x.key))
                 return x.val;
@@ -93,7 +93,7 @@ public class testHash2<Key, Value> {
         return null;
     }
 
-    public Value getValue()
+    public File getValue()
     {
         return first.val;
     }
@@ -104,7 +104,7 @@ public class testHash2<Key, Value> {
      * @param key the key
      * @param val the value
      */
-    public void put(Key key, Value val) {
+    public void put(Key key, File val) {
         if (val == null) {
             delete(key);
             return;
@@ -175,36 +175,4 @@ public class testHash2<Key, Value> {
      *
      * @param args the command-line arguments
      */
-    public static void main(String[] args) {
-        SeparateChainingHashST<Integer, String> integerToWordMap = new SeparateChainingHashST<>(13);
-        int i = 1;
-        int j = 2;
-        int k = 3;
-        int l = 4;
-        int m = 2;
-        int f = 5;
-        int t = 20;
-        int a = 23;
-        int p = 4;
-        int h = 69;
-        int r = 8;
-        integerToWordMap.put(i , "one");      // 1
-        integerToWordMap.put(j ,"two" );      // 2
-        integerToWordMap.put(k , "three" );   // 3
-        integerToWordMap.put(l , "four" );    // 4
-        integerToWordMap.put(m , "Test" );     // 2
-        integerToWordMap.put(m , "Need" );
-        integerToWordMap.put(k , "To" );
-        integerToWordMap.put(f , "Check" );
-        integerToWordMap.put(a , "Check 1" );
-        integerToWordMap.put(p , "Check 2" );
-        integerToWordMap.put(t , "Check 3" );
-        integerToWordMap.put(h , "Check 4" );
-        integerToWordMap.put(r , "Check 5" );
-
-        integerToWordMap.printST();
-
-
-
-    }
 }

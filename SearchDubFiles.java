@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 public class SearchDubFiles{
 
     /** Declaring an instance of SeparateChainingHashST, used in search method */
-    private SeparateChainingHashST<String, String> hashTableST;
+    private SeparateChainingHashST<String, File> hashTableST;
 
     //File Variables
     private String dir;
@@ -70,7 +70,7 @@ public class SearchDubFiles{
                 for (int j = 0; j < digestedBytes.length; j++)
                     sb.append(Integer.toString((digestedBytes[j] & 0xff) + 0x100, 16).substring(1));
 
-                hashTableST.put(sb.toString(), fileName); //Puts file in list to check for duplicates
+                hashTableST.put(sb.toString(), files[i]); //Puts file in list to check for duplicates
                 System.out.println((i) + ":\t" + sb + "\t" + fileName); //Prints hash and file
             }
         }
@@ -94,30 +94,26 @@ public class SearchDubFiles{
     //Deletes duplicate files //INCOMPLETE //DOES NOT FULLY FUNCTION
     //Austin - I don't think the linked list needs a key. It knows what to delete with just the value
 
+    // steps go thru each index in st in separeteChainingHashST.java
+    // if the lenght of st[i] > 1
+    //      - get bytes
+    //      - get file name
+    //      - total deleted
+    //      - delete from linked list
+    //      - delete from directory
+    // else skip
+
     public void deleteFiles() throws IOException, NoSuchAlgorithmException {
         int deleted = 0;
         double bytes = 0;
         System.out.println("\nDeleting Files");
-        for(int i = 0; i < files.length; i++)
+        for (int i=0; i< files.length; i++)
         {
-            for(int j = 0; j < 2; j++) //j < 2 is hard coded because I don't know how to find hashTable
+            if (hashTableST.getLength(i) > 1)
             {
-                if(hashTableST.getLength(j) > 1)
-                {
-                    System.out.println(files[i].getName());
-                    System.out.println(hashTableST.getValue(j));
-                    System.out.println("------------");
-                    if(files[i].getName().equals(hashTableST.getValue(j)))
-                    {
-                        bytes = bytes + files[i].length();
-                        files[i].delete();
-                        System.out.println("Deleted " + files[i].getName());
-                        //There should be a function that deletes value from linked list
-                        deleted++;
-                    }
-                }
-                else
-                    System.out.println("Skip\n------------");
+                System.out.println(hashTableST.getValue(i));
+                bytes = bytes + files[i].length();
+                System.out.println("------------");
             }
         }
         System.out.println("\n" + deleted + " Files Deleted. " + bytes + " bytes Storage Saved");

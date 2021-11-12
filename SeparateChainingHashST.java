@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -27,7 +28,7 @@ public class SeparateChainingHashST<Key, Value> {
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
     private int dupCount = 0;                        // number of duplicate files
-    private testHash2<Key, Value>[] st;  // array of linked-list symbol tables
+    private testHash2<Key, File>[] st;  // array of linked-list symbol tables
 
     // Initializes an empty symbol table.
     public SeparateChainingHashST() {
@@ -41,24 +42,12 @@ public class SeparateChainingHashST<Key, Value> {
     public SeparateChainingHashST(int m) {
         this.m = m;
         System.out.println("\nFILES:");
-        st = (testHash2<Key, Value>[]) new testHash2[m];
+        st = (testHash2<Key, File>[]) new testHash2[m];
         for (int i = 0; i < m; i++)
-            st[i] = new testHash2<Key, Value>();
+            st[i] = new testHash2<Key, File>();
     } 
 
-    // resize the hash table to have the given number of chains,
-    // rehashing all of the keys
-    private void resize(int chains) {
-        SeparateChainingHashST<Key, Value> temp = new SeparateChainingHashST<Key, Value>(chains);
-        for (int i = 0; i < m; i++) {
-            for (Key key : st[i].keys()) {
-                temp.put(key, st[i].get(key));
-            }
-        }
-        this.m  = temp.m;
-        this.n  = temp.n;
-        this.st = temp.st;
-    }
+
 
     // hash function for keys - returns value between 0 and m-1
     private int hashTextbook(Key key) {
@@ -113,7 +102,7 @@ public class SeparateChainingHashST<Key, Value> {
      *         null if no such value
      * @throws IllegalArgumentException if key is null
      */
-    public Value get(Key key) {
+    public File get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         int i = hash(key);
         return st[i].get(key);
@@ -124,7 +113,7 @@ public class SeparateChainingHashST<Key, Value> {
         return st[index].size();
     }
 
-    public Value getValue(int index)
+    public File getValue(int index)
     {
         return st[index].getValue();
     }
@@ -139,7 +128,7 @@ public class SeparateChainingHashST<Key, Value> {
      * @param  val the value
      * @throws IllegalArgumentException if key is null
      */
-    public void put(Key key, Value val)
+    public void put(Key key, File val)
     {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (val == null)
@@ -178,9 +167,7 @@ public class SeparateChainingHashST<Key, Value> {
             n--;
         st[i].delete(key);
 
-        // halve table size if average length of list <= 2
-        if (m > INIT_CAPACITY && n <= 2*m) 
-            resize(m/2);
+
     }
 
     public void deleteValue(int index)
@@ -200,7 +187,7 @@ public class SeparateChainingHashST<Key, Value> {
         return queue;
     }
 
-    public testHash2<Key, Value>[] getST(){
+    public testHash2<Key, File>[] getST(){
         return this.st;
     }
 
