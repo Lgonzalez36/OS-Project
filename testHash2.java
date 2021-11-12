@@ -84,6 +84,7 @@ public class testHash2<Key, Value> {
      * @return the value associated with the given key if the key is in the symbol table
      *     and {@code null} if the key is not in the symbol table
      */
+
     public Value get(Key key) {
         for (Node x = first; x != null; x = x.next) {
             if (key.equals(x.key))
@@ -92,6 +93,10 @@ public class testHash2<Key, Value> {
         return null;
     }
 
+    public Value getValue()
+    {
+        return first.val;
+    }
     /**
      * Inserts the key-value pair into the symbol table, overwriting the old value
      * with the new value if the key is already in the symbol table.
@@ -137,6 +142,11 @@ public class testHash2<Key, Value> {
         return x;
     }
 
+    public void deleteValue()
+    {
+
+    }
+
     /**
      * Returns all keys in the symbol table as an {@code Iterable}.
      * To iterate over all of the keys in the symbol table named {@code st},
@@ -152,7 +162,7 @@ public class testHash2<Key, Value> {
 
     public void printST(){
         for (Node x = first; x != null; x = x.next) {
-            System.out.print("  -->  " + x.val);
+            System.out.print(" | " + x.val);
         }
     }
 
