@@ -1,6 +1,8 @@
-
-import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 /**********************************************************************
  * Main class to run our program.
@@ -21,21 +23,25 @@ public class Main {
      * @throws NoSuchAlgorithmException when requested algorithm is not available
      *
      **********************************************************************/
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException{
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        boolean valid = false;
+        System.out.println("\nDUPLICATE FILE FINDER");
 
-        //Output for the user to welcome to the program
-        System.out.println("\nHello, Welcome to the Duplicate file finder!");
+        while(!valid) {
+            Scanner s = new Scanner(System.in); //Scanner object
+            System.out.print("Enter the whole Directory you wish to search: ");
+            String directory = s.nextLine(); //User inputs working Directory here and has error checking
 
-        //Output for the user to ask for the Directory name
-        System.out.println("Enter the whole Directory you wish to search\n");
-        // ___________________________________________________________
-        // User inputs working Directory here and has error checking
-        String directory = "C:\\Users\\luisg\\Documents\\Fall 2021\\OS-Project\\";
-        // ___________________________________________________________
+            Path path = Path.of(directory); //Used to check if path exists
 
-        //Declaring and Initializing SearchDubFiles object, which is needed to run our program;
-        //followed by "search()" method which is used to search for Dubplicate files.
-        SearchDubFiles sdf = new SearchDubFiles(directory);
-        sdf.search();
+            //Runs search() method if directory exists. Lets user input again otherwise
+            if (Files.exists(path)) {
+                valid = true;
+                SearchDubFiles sdf = new SearchDubFiles(directory);
+                sdf.search();
+            }
+            else
+                System.out.println("\nDirectory does not exist. Try again.\n");
+        }
     }
  }
