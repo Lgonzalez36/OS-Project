@@ -26,6 +26,7 @@ public class SeparateChainingHashST<Key, Value> {
     private static final int INIT_CAPACITY = 4;
     private int n;                                // number of key-value pairs
     private int m;                                // hash table size
+    private int dupCount = 0;                        // number of duplicate files
     private testHash2<Key, Value>[] st;  // array of linked-list symbol tables
 
     // Initializes an empty symbol table.
@@ -39,7 +40,7 @@ public class SeparateChainingHashST<Key, Value> {
      */
     public SeparateChainingHashST(int m) {
         this.m = m;
-        System.out.println("IN CTOR ");
+        System.out.println("\nFILES:");
         st = (testHash2<Key, Value>[]) new testHash2[m];
         for (int i = 0; i < m; i++)
             st[i] = new testHash2<Key, Value>();
@@ -118,6 +119,16 @@ public class SeparateChainingHashST<Key, Value> {
         return st[i].get(key);
     } 
 
+    public int getLength(int index)
+    {
+        return st[index].size();
+    }
+
+    public Value getValue(int index)
+    {
+        return st[index].getValue();
+    }
+
     /**
      * Inserts the specified key-value pair into the symbol table, overwriting the old 
      * value with the new value if the symbol table already contains the specified key.
@@ -128,19 +139,24 @@ public class SeparateChainingHashST<Key, Value> {
      * @param  val the value
      * @throws IllegalArgumentException if key is null
      */
-    public void put(Key key, Value val) {
+    public void put(Key key, Value val)
+    {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-        if (val == null) {
+        if (val == null)
+        {
             System.out.println("IN VAL ++ NULL");
             delete(key);
             return;
         }
-        for(int i=0; i < m; i++){
+        for(int i=0; i < m; i++)
+        {
             if(st[i].isEmpty()){
                 st[i].put(key, val);
                 return;
             }
-            else if (!st[i].isEmpty() && st[i].contains(key)){
+            else if (!st[i].isEmpty() && st[i].contains(key))
+            {
+                dupCount++;
                 st[i].put(key, val);
                 return;
             }
@@ -165,7 +181,12 @@ public class SeparateChainingHashST<Key, Value> {
         // halve table size if average length of list <= 2
         if (m > INIT_CAPACITY && n <= 2*m) 
             resize(m/2);
-    } 
+    }
+
+    public void deleteValue(int index)
+    {
+        st[index].deleteValue();
+    }
 
     // return keys in symbol table as an Iterable
     public Iterable<Key> keys() {
@@ -184,14 +205,40 @@ public class SeparateChainingHashST<Key, Value> {
     }
 
 	public void printST() {
-        System.out.println("\nIndex:\t\tKey:\t\t\t\t\t" + "\tValues: \n");
+        System.out.println("\nIndex:\tKey:\t\t\t\t\t\t\t" + "\tValues: ");
+        System.out.println("-------------------------------------------");
         for (int i=0; i < st.length; i++){
             if (!st[i].isEmpty()){
-                System.out.print( i + "\t");
+                System.out.print( i + ":\t");
                 System.out.print("\t" + st[i].getKey().toString() + "\t ");
                 st[i].printST();
-                System.out.println("\n____________________________________________________________\n");
+                System.out.println("\n-------------------------------------------");
             }
         }
 	}
+
+    //Returns amount of duplicate files
+    public int getNumDupFiles() {
+        return dupCount;
+    }
+
+    //Confirms that user wants to delete duplicate files
+    public boolean confirm() {
+        boolean choice = false;
+        Scanner s = new Scanner(System.in); //Scanner object
+        System.out.println("\n" + getNumDupFiles() + " duplicate files found");
+
+        System.out.print("Delete duplicate files? (Y/N) ");
+        String input = s.nextLine(); //User input
+
+        if(input.equals("Y") || input.equals("y"))
+            choice = true;
+        else if(input.equals("N") || input.equals("n"))
+            choice = false;
+        else {
+            System.out.println("\nInvalid Choice. Type \"Y\" for Yes or \"N\" for No\n");
+            confirm();
+        }
+        return choice;
+    }
 }
