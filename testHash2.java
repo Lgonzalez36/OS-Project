@@ -1,4 +1,5 @@
 import java.util.AbstractQueue;
+import java.io.File;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -29,8 +30,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  *  @author  
  *  @author  
  */
-public class testHash2<Key, File> {
+public class testHash2<Key, Value> {
     private int n;           // number of key-value pairs
+    private double totalBytes;
     private Node first;      // the linked list of key-value pairs
 
     // a helper linked list data type
@@ -40,6 +42,7 @@ public class testHash2<Key, File> {
         private Node next;
 
         public Node(Key key, File val, Node next)  {
+            
             this.key  = key;
             this.val  = val;
             this.next = next;
@@ -105,6 +108,7 @@ public class testHash2<Key, File> {
      * @param val the value
      */
     public void put(Key key, File val) {
+        
         if (val == null) {
             delete(key);
             return;
@@ -113,11 +117,13 @@ public class testHash2<Key, File> {
             if (x.next == null) {
                 Node new_node = new Node(key, val, null);
                 x.next = new_node;
+                totalBytes = val.length();
                 n++;
                 return;
             }
         }
         first = new Node(key, val, first);
+        totalBytes = val.length();
         n++;
     }
 
@@ -162,12 +168,23 @@ public class testHash2<Key, File> {
 
     public void printST(){
         for (Node x = first; x != null; x = x.next) {
-            System.out.print(" | " + x.val);
+            System.out.print(" | " + x.val.getName());
         }
     }
 
     public Key getKey(){
         return first.key;
+    }
+    public double getTotalSize(){
+        return totalBytes;
+    }
+
+    public void deleteLinkedList() {
+        for (Node x = first; x != null; x = x.next) {
+            x.val.delete();
+        }
+        n=0;
+        first = null;
     }
 
     /**

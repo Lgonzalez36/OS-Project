@@ -141,6 +141,7 @@ public class SeparateChainingHashST<Key, Value> {
         {
             if(st[i].isEmpty()){
                 st[i].put(key, val);
+                
                 return;
             }
             else if (!st[i].isEmpty() && st[i].contains(key))
@@ -228,4 +229,12 @@ public class SeparateChainingHashST<Key, Value> {
         }
         return choice;
     }
+
+	public void deleteDupFiles(int i) {
+        st[i].deleteLinkedList();
+	}
+
+	public double getTotalBytes(int i) {
+		return st[i].getTotalSize();
+	}
 }

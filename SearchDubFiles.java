@@ -70,8 +70,8 @@ public class SearchDubFiles{
                 for (int j = 0; j < digestedBytes.length; j++)
                     sb.append(Integer.toString((digestedBytes[j] & 0xff) + 0x100, 16).substring(1));
 
-                hashTableST.put(sb.toString(), files[i]); //Puts file in list to check for duplicates
                 System.out.println((i) + ":\t" + sb + "\t" + fileName); //Prints hash and file
+                hashTableST.put(sb.toString(), files[i]); //Puts file in list to check for duplicates
             }
         }
 
@@ -111,12 +111,13 @@ public class SearchDubFiles{
         {
             if (hashTableST.getLength(i) > 1)
             {
-                System.out.println(hashTableST.getValue(i));
-                bytes = bytes + files[i].length();
-                System.out.println("------------");
+                deleted = deleted + hashTableST.getLength(i);
+                bytes =  bytes + hashTableST.getTotalBytes(i);
+                hashTableST.deleteDupFiles(i);
             }
         }
         System.out.println("\n" + deleted + " Files Deleted. " + bytes + " bytes Storage Saved");
+        hashTableST.printST();
         restart();
     }
 
