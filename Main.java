@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 /**********************************************************************
- * Main class to run our program.
+ * Main class
  *
  * @author Luis Gonzales, Zarrukh Bazarov, Austin Krause
  * @version November, 2021
@@ -13,7 +13,7 @@ import java.util.Scanner;
  **********************************************************************/
 public class Main {
 
-    /**********************************************************************
+    /**
      * Main method within the main class. There is an output for the user
      * to welcome to the program. The program also asks for user to input
      * Directory name. The main method uses SearchDubFiles class to help
@@ -22,22 +22,23 @@ public class Main {
      * @throws IOException if operation fails to execute
      * @throws NoSuchAlgorithmException when requested algorithm is not available
      *
-     **********************************************************************/
+     */
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         boolean valid = false;
         System.out.println("\nDUPLICATE FILE FINDER");
 
+        //Repeats until valid input
         while(!valid) {
             Scanner s = new Scanner(System.in); //Scanner object
-            System.out.print("Enter the whole Directory you wish to search: ");
-            String directory = s.nextLine(); //User inputs working Directory here and has error checking
+            System.out.print("Enter The Directory Name: ");
+            String directory = s.nextLine(); //Lets user input directory name
 
             Path path = Path.of(directory); //Used to check if path exists
 
             //Runs search() method if directory exists. Lets user input again otherwise
             if (Files.exists(path)) {
                 valid = true;
-                SearchDubFiles sdf = new SearchDubFiles(directory);
+                SearchDupFiles sdf = new SearchDupFiles(directory);
                 sdf.search();
             }
             else
