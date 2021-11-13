@@ -6,47 +6,46 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /***************************************************************************************
- * SearchDubFiles Class is used to search for Duplicate files, show the user
- * the results of the search and delete them if found. !!!!!! //Is It deleting?
+ * SearchDupFiles Class is used to search for Duplicate files, show the user
+ * the results of the search and delete them if found.
  *
  * @author Luis Gonzales, Zarrukh Bazarov, Austin Krause
  * @version November, 2021
  *
  ***************************************************************************************/
-public class SearchDubFiles{
+public class SearchDupFiles{
 
-    /** Declaring an instance of SeparateChainingHashST, used in search method */
-    private SeparateChainingHashST<String, File> hashTableST;
+    //Declaring an instance of aList, used in search method
+    private AdjacencyList<String> aList;
 
     //File Variables
-    private String dir;
-    private File file;
+    private final String dir;
     private File[] files;
-    private String fileName;
 
-
-    /**********************************************************************
+    /**
      * Constructor helps to create the SearchDubFiles object with the
      * directory specified by the parameter.
      *
      * @param dir is the name of the directory which the user inputs
-     **********************************************************************/
-    SearchDubFiles(String dir){
+     */
+    SearchDupFiles(String dir){
         this.dir = dir;
     }
 
-    /***********************************************************************************
+    /**
      * Search method is used to search for directory for Duplicate files.
      *
      * @throws NoSuchAlgorithmException when requested algorithm is not available
      * @throws IOException if operation fails to execute
-     ***********************************************************************************/
+     */
     public void search() throws NoSuchAlgorithmException, IOException {
-        //Initializing File Variables
-        file = new File(this.dir);
+        //Initializes File Variables
+        File file = new File(this.dir);
         files = file.listFiles();
 
-        hashTableST = new SeparateChainingHashST<>((files.length));
+        //Declares new Adjacency Table
+        assert files != null;
+        aList = new AdjacencyList<>((files.length));
 
         //Hash Variables
         byte[] bytes, digestedBytes;
@@ -57,7 +56,7 @@ public class SearchDubFiles{
 
             //Checks if index is a file
             if(files[i].isFile()) {
-                fileName = files[i].getName(); //Temporary file name variable
+                String fileName = files[i].getName(); //Temporary file name variable
                 bytes = Files.readAllBytes(files[i].toPath()); //Reads all bytes from file
                 md = MessageDigest.getInstance("MD5"); //MD5 is a cryptographic hash function, unique enough for this program
                 md.update(bytes); //Updates the digest
@@ -67,23 +66,23 @@ public class SearchDubFiles{
                 StringBuilder sb = new StringBuilder();
 
                 //Appends hash to string
-                for (int j = 0; j < digestedBytes.length; j++)
-                    sb.append(Integer.toString((digestedBytes[j] & 0xff) + 0x100, 16).substring(1));
+                for (byte digestedByte : digestedBytes)
+                    sb.append(Integer.toString((digestedByte & 0xff) + 0x100, 16).substring(1));
 
                 System.out.println((i) + ":\t" + sb + "\t" + fileName); //Prints hash and file
-                hashTableST.put(sb.toString(), files[i]); //Puts file in list to check for duplicates
+                aList.put(sb.toString(), files[i]); //Puts file in list to check for duplicates
             }
         }
 
-        hashTableST.printST();
+        aList.printLists();
 
-        if(hashTableST.getNumDupFiles() != 0) {
-            if (hashTableST.confirm())
+        //Asks user if they want to delete all duplicate files.
+        //Restarts if no duplicates are found or user says "No"
+        if(aList.getNumDupFiles() != 0) {
+            if (aList.confirm())
                 deleteFiles();
-            else {
-                System.out.println("\nFiles deletion did not complete");
+            else
                 restart();
-            }
         }
         else {
             System.out.println("\nNo duplicate files found");
@@ -91,46 +90,55 @@ public class SearchDubFiles{
         }
     }
 
-    //Deletes duplicate files //INCOMPLETE //DOES NOT FULLY FUNCTION
-    //Austin - I don't think the linked list needs a key. It knows what to delete with just the value
-
-    // steps go thru each index in st in separeteChainingHashST.java
-    // if the lenght of st[i] > 1
-    //      - get bytes
-    //      - get file name
-    //      - total deleted
-    //      - delete from linked list
-    //      - delete from directory
-    // else skip
-
+    /**
+     *Deletes duplicate files:
+     *Steps go through each index in st in AdjacencyList.java
+     * if the length of st[i] > 1
+     *      - get bytes
+     *      - get file name
+     *      - total deleted
+     *      - delete from linked list
+     *      - delete from directory
+     * else skip
+     * @throws NoSuchAlgorithmException when requested algorithm is not available
+     * @throws IOException if operation fails to execute
+     */
     public void deleteFiles() throws IOException, NoSuchAlgorithmException {
-        int deleted = 0;
-        double bytes = 0;
-        System.out.println("\nDeleting Files");
-        for (int i=0; i< files.length; i++)
-        {
-            if (hashTableST.getLength(i) > 1)
-            {
-                deleted = deleted + hashTableST.getLength(i);
-                bytes =  bytes + hashTableST.getTotalBytes(i);
-                hashTableST.deleteDupFiles(i);
+        long totalBytes = 0; //Total bytes of storage saved
+        int deleted = 0; //Total files deleted
+        System.out.println("\nDeleting Files...");
+        for (int i=0; i< files.length; i++) {
+            //If length of linked list is greater than one, delete duplicates from it
+            if (aList.getLength(i) > 1) {
+                deleted = deleted + (aList.getLength(i) - 1); //Adds total files deleted
+                aList.deleteDupFiles(i);
+                totalBytes += aList.getTotalBytes(i); //Adds total bytes deleted
             }
         }
-        System.out.println("\n" + deleted + " Files Deleted. " + bytes + " bytes Storage Saved");
-        hashTableST.printST();
-        restart();
+
+        //Prints out results of deletion
+        aList.printLists();
+        System.out.println("\n[" + deleted + " Files Deleted]");
+        System.out.print("[" + totalBytes + " Bytes (About: " + (totalBytes/1048576) + " MB) Storage Saved]");
+
+        restart(); //Restarts program
     }
 
-    //Asks user if they want to search another directory
+    /**
+     * Asks the user if they want to search another directory
+     *
+     * @throws NoSuchAlgorithmException when requested algorithm is not available
+     * @throws IOException if operation fails to execute
+     */
     public void restart() throws IOException, NoSuchAlgorithmException {
         Scanner s = new Scanner(System.in); //Scanner object
         System.out.print("\nSearch another directory? (Y/N) ");
         String input = s.nextLine(); //User input
 
+        //Will restart or quit program based on user input. Repeats menu if invalid input
         if(input.equals("Y") || input.equals("y"))
             Main.main(null);
-        else if(input.equals("N") || input.equals("n"))
-        {
+        else if(input.equals("N") || input.equals("n")) {
             System.out.println("\nEnding program. Goodbye");
             System.exit(0);
         }
